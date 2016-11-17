@@ -2,7 +2,9 @@
 
 What does this Java Application do?
 -----------------------------------
-A sample client server app. Step 3: A server which handles multiple clients simultaneously. The output from all connected clients will appear on the server's screen.
+A sample client server app. A server which handles multiple clients simultaneously. The output from all connected clients will appear on the server's screen.
+
+Git URL: https://github.com/stefanasemota/aos-demo-client-server
 
 Prerequisites
 =============
