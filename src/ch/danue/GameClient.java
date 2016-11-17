@@ -78,7 +78,7 @@ public class GameClient implements Runnable {
 	public static void main(String args[]) {
 		GameClient client = null;
 		if (args.length != 2)
-			System.out.println("Usage: java ChatClient host port");
+			System.out.println("Usage: java GameClient host port");
 		else
 			client = new GameClient(args[0], Integer.parseInt(args[1]));
 	}

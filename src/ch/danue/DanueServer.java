@@ -1,4 +1,5 @@
 package ch.danue;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -62,7 +63,7 @@ public class DanueServer implements Runnable {
 	public static void main(String args[]) {
 		DanueServer server = null;
 		if (args.length != 1)
-			System.out.println("Usage: java ChatServer port");
+			System.out.println("Usage: java DanueServer port");
 		else
 			server = new DanueServer(Integer.parseInt(args[0]));
 	}
