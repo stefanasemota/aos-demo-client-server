@@ -1,0 +1,35 @@
+# Created by https://www.gitignore.io
+ 
+### Java ###
+*.class
+       
+# Package Files #
+ 
+### Eclipse ###
+.metadata
+ 
+/org.eclipse.jdt.core.prefs
+.settings/
+bin/
+tmp/
+*.tmp
+*.bak
+.loadpath
+ 
+# External tool builders
+.externalToolBuilders/
+ 
+# PDT-specific
+.buildpath
+ 
+### Maven ###
+target/
+/target
+pom.xml.tag
+._pom.xml
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
