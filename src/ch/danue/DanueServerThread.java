@@ -28,6 +28,7 @@ public class DanueServerThread extends Thread {
 		} catch (IOException ioe) {
 			System.out
 					.println(serverId + " ERROR sending: " + ioe.getMessage());
+			// Hey Danue FIXME broadcastingmaessig
 			server.removeClient(serverId);
 			stop();
 		}
@@ -47,10 +48,13 @@ public class DanueServerThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
+				// Hey Danue FIXME broadcastingmaessig
 				server.handle(serverId, streamIn.readUTF());
 			} catch (IOException ioe) {
 				System.out.println(serverId + " ERROR reading: "
 						+ ioe.getMessage());
+				// Hey Danue FIXME broadcastingmaessig
+				server.removeClient(serverId);
 				stop();
 			}
 		}
