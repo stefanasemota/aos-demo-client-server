@@ -5,9 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class DanueServer implements Runnable {
-	private DanueServerThread client = null;
+	// Hey Danue FIXME broadcastingmaessig
+	private DanueServerThread client[] = new DanueServerThread[3];
 	private ServerSocket server = null;
 	private Thread thread = null;
+	private int totalClient = 0;
 
 	public DanueServer(int port) {
 		try {
@@ -18,7 +20,7 @@ public class DanueServer implements Runnable {
 					.println("Server started: " + server + " on port " + port);
 			start();
 		} catch (IOException ioe) {
-			System.out.println("Can not bind to port " + port + ": "
+			System.out.println("Error port binding:: " + port + ": "
 					+ ioe.getMessage());
 		}
 	}
@@ -26,7 +28,6 @@ public class DanueServer implements Runnable {
 	public void run() {
 		while (this.thread != null) {
 			try {
-				// System.out.println("Waiting for a client ...");
 				addClient(this.server.accept());
 			} catch (IOException ioe) {
 				System.out.println("Server accept error: " + ioe);
@@ -42,6 +43,7 @@ public class DanueServer implements Runnable {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void stop() {
 		if (this.thread != null) {
 			this.thread.stop();
@@ -49,18 +51,71 @@ public class DanueServer implements Runnable {
 		}
 	}
 
+	/**
+	 * Hey Danue FIXME broadcastingmaessig
+	 * 
+	 * @param clientId
+	 * @return int
+	 */
+	private int clientLookup(int clientId) {
+		for (int i = 0; i < totalClient; i++)
+			if (client[i].getServerId() == clientId)
+				return i;
+		return -1;
+	}
+
+	/**
+	 * Hey Danue FIXME broadcastingmaessig
+	 * 
+	 * @param clientId
+	 * @param input
+	 */
+	public synchronized void handle(int clientId, String input) {
+		if (input.equals(".stopp")) {
+			client[clientLookup(clientId)].send("stopp");
+			removeClient(clientId);
+		} else
+			for (int i = 0; i < totalClient; i++)
+				client[i].send(clientId + ": " + input);
+	}
+
+	// Hey Danue FIXME broadcastingmaessig
 	private void addClient(Socket socket) {
-		// System.out.println("Client accepted: " + socket);
-		this.client = new DanueServerThread(this, socket);
-		try {
-			this.client.open();
-			this.client.start();
-		} catch (IOException ioe) {
-			System.out.println("Error opening thread: " + ioe);
+		if (totalClient < client.length) {
+			System.out.println("Client accepted: " + socket);
+			try {
+				client[totalClient] = new DanueServerThread(this, socket);
+				client[totalClient].open();
+				client[totalClient].start();
+				totalClient++;
+			} catch (IOException e) {
+				System.out.println("Error opening thread: " + e);
+			}
+		}
+	}
+
+	// Hey Danue FIXME broadcastingmaessig
+	@SuppressWarnings("deprecation")
+	public synchronized void removeClient(int id) {
+		int pos = clientLookup(id);
+		if (pos >= 0) {
+			DanueServerThread danueServerThread = client[pos];
+			System.out.println("Removing client thread " + id + " at " + pos);
+			if (pos < totalClient - 1)
+				for (int i = pos + 1; i < totalClient; i++)
+					client[i - 1] = client[i];
+			totalClient--;
+			try {
+				danueServerThread.close();
+			} catch (IOException ioe) {
+				System.out.println("Error closing thread: " + ioe);
+			}
+			danueServerThread.stop();
 		}
 	}
 
 	public static void main(String args[]) {
+		@SuppressWarnings("unused")
 		DanueServer server = null;
 		if (args.length != 1)
 			System.out.println("Usage: java DanueServer port");

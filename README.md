@@ -2,7 +2,7 @@
 
 What does this Java Application do?
 -----------------------------------
-A sample client server app. A server which handles multiple clients simultaneously. The output from all connected clients will appear on the server's screen.
+A sample client server App. A server which handles multiple clients simultaneously. The output from all connected clients will appear on the server's screen.
 
 Git URL: https://github.com/stefanasemota/aos-demo-client-server
 
@@ -21,10 +21,14 @@ Backend
 
 
 # GIT Repository details
-All work is done on the "developer" branch!!
+All work is done on the "head" !
 
 	* name 				aos-demo-client-server
 	* developer			Stephan Asemota
 		
 ## To try out:
-	* TODO
+	* Start DanueServer.java (Maximum clients is set to 3)
+	* Start GameClient.java (1 or multiple clients)
+	
+## Changes
+	* Client and Server now receive and send.
